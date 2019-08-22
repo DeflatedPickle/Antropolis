@@ -1,9 +1,11 @@
 import time
+import random
 
 import glfw
 from OpenGL.GL import *
 
 import ant
+import globals
 
 if __name__ == "__main__":
     if not glfw.init():
@@ -17,9 +19,9 @@ if __name__ == "__main__":
 
     ant_list = []
     # Make some default ants
-    for k, v in {"ant 1" : 1, "ant 2" : 2}.items():
-        ant_list.append(ant.Ant(k, v))
-
+    for i in range(8):
+        ant_list.append(ant.Ant(i, random.randint(0, 6)))
+    globals.ant_list = ant_list
 
     glViewport(0, 0, 640, 480)
     glShadeModel(GL_SMOOTH)
@@ -28,9 +30,13 @@ if __name__ == "__main__":
     glMatrixMode(GL_PROJECTION)
 
     glLoadIdentity()
+    # TODO: It's supposed to be 3D
+    # glOrtho(0.0, 640, 480, 0.0, -100.0, 100.0)
+    glMatrixMode(GL_MODELVIEW)
 
     while not glfw.window_should_close(window):
         glClear(GL_COLOR_BUFFER_BIT)
+        glMatrixMode(GL_MODELVIEW)
         glClearColor(0.25, 0.25, 0.25, 0)
 
         curr_time = time.time()

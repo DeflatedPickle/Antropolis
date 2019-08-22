@@ -1,17 +1,18 @@
 from collections import deque
+import random
 
 from OpenGL.GL import *
 import vectormath as vmath
 
-import wander
+import action
 
 class Ant:
     def __init__(self, name, age):
         self.name = name
         self.age = age
 
-        self.position = vmath.Vector3(0, 0, 0)
-        self.size = vmath.Vector3(0.25, 0.25, 0.25)
+        self.position = vmath.Vector3(random.uniform(-1, 1), random.uniform(-1, 1), random.uniform(-1, 1))
+        self.size = vmath.Vector3(0.15, 0.15, 0.15)
 
         # self.action_default = wander.Wander
         self.action_queue = deque([], 6)
@@ -25,15 +26,16 @@ class Ant:
             self.action_cooldown -= 1
         else:
             if len(self.action_queue) != 0:
-                action = self.action_queue[0]
-                if not action.is_complete:
-                    action.perform(self)
+                act = self.action_queue[0]
+                if not act.is_complete:
+                    act.perform()
+                    act.render()
                 else:
                     self.action_queue.popleft()
                     self.action_cooldown = 60
 
             else:
-                self.action_queue.append(wander.Wander())
+                self.action_queue.append(action.Dart(self))
 
     def render(self):
         # TODO: Replace with a shader
@@ -43,3 +45,6 @@ class Ant:
         glVertex2f(self.position.x + self.size.x, self.position.y + self.size.y)  # Top right
         glVertex2f(self.position.x, self.position.y + self.size.y)  # Top left
         glEnd()
+
+    def does_fill():
+        return True
