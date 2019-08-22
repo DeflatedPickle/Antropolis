@@ -16,3 +16,6 @@ class Wander(action.Action):
             ant.position.x += 0.1
         elif dir == "west":
             ant.position.x -= 0.1
+
+        # TODO: Ants should wander to specific coordinates, then stop
+        self.is_complete = True
