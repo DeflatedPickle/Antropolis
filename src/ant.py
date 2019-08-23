@@ -11,7 +11,8 @@ class Ant:
         self.name = name
         self.age = age
 
-        self.position = vmath.Vector3(random.uniform(-1, 1), random.uniform(-1, 1), random.uniform(-1, 1))
+        # self.position = vmath.Vector3(random.uniform(-1, 1), random.uniform(-1, 1), random.uniform(-1, 1))
+        self.position = vmath.Vector3(0.48, 0.08, 0)
         self.size = vmath.Vector3(0.15, 0.15, 0.15)
 
         # self.action_default = wander.Wander
@@ -35,7 +36,7 @@ class Ant:
                     self.action_cooldown = 60
 
             else:
-                self.action_queue.append(action.Dart(self))
+                self.action_queue.append(action.Wander(self))
 
     def render(self):
         # TODO: Replace with a shader
@@ -46,5 +47,5 @@ class Ant:
         glVertex2f(self.position.x, self.position.y + self.size.y)  # Top left
         glEnd()
 
-    def does_fill():
+    def does_fill(self):
         return True

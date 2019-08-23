@@ -5,7 +5,9 @@ import glfw
 from OpenGL.GL import *
 
 import ant
+import block
 import globals
+import util
 
 if __name__ == "__main__":
     if not glfw.init():
@@ -19,9 +21,18 @@ if __name__ == "__main__":
 
     ant_list = []
     # Make some default ants
-    for i in range(8):
-        ant_list.append(ant.Ant(i, random.randint(0, 6)))
+    for i in range(1):
+        ant_list.append(ant.Ant(f"ant {i}", random.randint(0, 6)))
     globals.ant_list = ant_list
+
+    # TODO: Add the blocks to the map matrix
+    for i in [(-0.32, -0.32),
+              (-0.16, 0.18),
+              (0.02, 0.18),
+              (0.20, 0.18),
+              (0.20, 0.02),
+              (0.20, -0.32)]:
+        ant_list.append(block.Block(i[0], i[1]))
 
     glViewport(0, 0, 640, 480)
     glShadeModel(GL_SMOOTH)
@@ -41,12 +52,14 @@ if __name__ == "__main__":
 
         curr_time = time.time()
         for i in ant_list:
-            print(i)
+            # print(i)
             new_time = time.time()
             i.update(curr_time - new_time)
             curr_time = new_time
 
             i.render()
+
+        util.draw_grid(640 // 16, 480 // 16)
 
         glfw.swap_buffers(window)
         glfw.poll_events()
